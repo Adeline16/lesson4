@@ -1,6 +1,7 @@
 package com.example.lesson4;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +18,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     List<TaskModel> list = new ArrayList<>();
     OnItemClickListener onItemClickListener;
+    MainActivity activity;
+    private LayoutInflater inflater;
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
+    public TaskAdapter(Context context, MainActivity mainActivity){
+        this.inflater = LayoutInflater.from(context);
+        this.activity = mainActivity;
+    }
+
     public void addData(TaskModel taskModel){
         list.add(taskModel);
+        notifyDataSetChanged();
+    }
+
+    public void updateTask(TaskModel model, int pos){
+        list.set(pos,model);
         notifyDataSetChanged();
     }
     public void deleteTask(int position){
@@ -52,6 +65,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     public class TaskHolder extends RecyclerView.ViewHolder {
         TextView txtTitle, txtDescription;
+
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
             txtTitle = itemView.findViewById(R.id.txt_title);

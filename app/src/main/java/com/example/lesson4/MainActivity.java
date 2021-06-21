@@ -2,11 +2,13 @@ package com.example.lesson4;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.rv_task);
-        taskAdapter = new TaskAdapter();
+        taskAdapter = new TaskAdapter(this,MainActivity.this);
         recyclerView.setAdapter(taskAdapter);
         fab = findViewById(R.id.fabb);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -35,13 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         taskAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onClickItem(int position) {
                 Intent intent = new Intent(MainActivity.this,SecondActivity.class);
                 intent.putExtra("title",taskAdapter.list.get(position).getTitle());
                 intent.putExtra("description",taskAdapter.list.get(position).getDescription());
+                intent.putExtra("pos",position);
                 startActivityForResult(intent,1);
+         //       startActivity(intent);
 
 
             }
@@ -58,11 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 taskAdapter.addData(taskModel);
             }
 
-        }else if ( resultCode ==1 && requestCode == RESULT_OK){
-            if (data != null){
+        }
+        if ( resultCode ==1 && requestCode == RESULT_OK){
                 TaskModel model = new TaskModel(data.getStringExtra("title"), data.getStringExtra("description"));
-                taskAdapter.addData(model);
+                int pos = data.getIntExtra("pos",0);
+                taskAdapter.updateTask(model,pos);
             }
         }
 
-}}
+}

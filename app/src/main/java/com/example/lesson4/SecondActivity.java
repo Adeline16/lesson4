@@ -12,6 +12,8 @@ public class SecondActivity extends AppCompatActivity {
 
     EditText et_title, et_description;
     Button btn_add;
+    TaskModel task;
+    private  int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,14 +22,6 @@ public class SecondActivity extends AppCompatActivity {
         et_title = findViewById(R.id.et_title);
         et_description = findViewById(R.id.et_description);
         btn_add = findViewById(R.id.btn_add);
-
-        Intent getData = getIntent();
-
-        String str = getIntent().getStringExtra("title");
-        String str1 = getIntent().getStringExtra("description");
-        et_title.setText(str);
-        et_description.setText(str1);
-
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,10 +39,24 @@ public class SecondActivity extends AppCompatActivity {
                 Intent intent = new Intent(SecondActivity.this,MainActivity.class);
                 intent.putExtra("title",title);
                 intent.putExtra("description",description);
+                intent.putExtra("pos",pos);
                 setResult(RESULT_OK,intent);
+                if (task !=null){
+                    task.setTitle(title);
+                    task.setDescription(description);
+
+
+                }
                 finish();
             }
         });
+        Intent intent = getIntent();
+        String title2 = intent.getStringExtra("title");
+        String description2 = intent.getStringExtra("description");
+        pos = intent.getIntExtra("pos",0);
+        et_title.setText(title2);
+        et_description.setText(description2);
+
 
     }
 }
