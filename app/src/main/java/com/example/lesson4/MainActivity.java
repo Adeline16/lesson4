@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -64,11 +65,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-        if ( resultCode ==1 && requestCode == RESULT_OK){
+        if ( requestCode ==1 && resultCode == RESULT_OK){
                 TaskModel model = new TaskModel(data.getStringExtra("title"), data.getStringExtra("description"));
                 int pos = data.getIntExtra("pos",0);
                 taskAdapter.updateTask(model,pos);
-            }
+            Log.e("TAG", "getIntent: " + data);
+
+        }
         }
 
 }

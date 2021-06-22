@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,8 +45,7 @@ public class SecondActivity extends AppCompatActivity {
                 if (task !=null){
                     task.setTitle(title);
                     task.setDescription(description);
-
-
+                    Log.e("TAG", "onClick: " + task.getTitle() );
                 }
                 finish();
             }
@@ -56,6 +56,7 @@ public class SecondActivity extends AppCompatActivity {
         pos = intent.getIntExtra("pos",0);
         et_title.setText(title2);
         et_description.setText(description2);
+        Log.e("TAG", "getIntent: " + title2);
 
 
     }
